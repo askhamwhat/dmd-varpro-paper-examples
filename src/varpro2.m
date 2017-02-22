@@ -49,6 +49,17 @@ function [b,alpha,niter,err,imode,alphas] = varpro2stab(y,t,phi,dphi,m,n,is,ia, 
 %            imode = 4, failed to find new search direction
 %                       at step niter
 %
+% Author: Travis Askham, 2017
+%
+% References: 
+% - Extensions and Uses of the Variable Projection 
+% Algorith for Solving Nonlinear Least Squares Problems by 
+% G. H. Golub and R. J. LeVeque ARO Report 79-3, Proceedings 
+% of the 1979 Army Numerical Analsysis and Computers Conference
+% - "Variable projection for nonlinear least squares problems." 
+% Computational Optimization and Applications 54.3 (2013): 579-593. 
+% by Dianne P. O’Leary and Bert W. Rust. 
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % various error and warning string formats

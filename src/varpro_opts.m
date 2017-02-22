@@ -63,6 +63,8 @@ function opts = varpro_opts(varargin)
 %   the full expression for the Jacobian or Kaufman's 
 %   approximation.
 %
+% Author: Travis Askham
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 errstr1 = 'nargin = %d. input should be pairs of values';
