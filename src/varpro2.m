@@ -140,15 +140,24 @@ for iter = 1:maxiter
     end
     
     % loop to determine lambda (lambda gives the "levenberg" part)
-        
-    % first check if current or shrunk version works
+
+    % pre-compute components that don't depend on 
+    % step-size parameter (lambda)
     
-    dtempmat = [djacmat; lambda0*diag(scales)];
-    rhs = [res(:); zeros(ia,1)];
+    % get pivots and lapack style qr for jacobian matrix
+    
+    [djacout,jpvt,tau] = XGEQP3(djacmat);
+    rjac = triu(djacout); % r from qr of jacobian
+    rhstop = XORMQR('L','T',djacout,tau,res(:)); % Q'*res
+    scalespvt = scales(jpvt(1:ia)); % permute scales appropriately...
+    rhs = [rhstop; zeros(ia,1)]; % transformed right hand side
+    
+    % check if current step size or shrunk version works
     
     % get step
     
-    delta0 = dtempmat\rhs;
+    delta0 = varpro2_solve_special(rjac,lambda0*diag(scalespvt),rhs);
+    delta0(jpvt(1:ia)) = delta0; % unscramble solution
     
     % new alpha guess
     
@@ -168,9 +177,10 @@ for iter = 1:maxiter
         % see if a smaller lambda is better
         
         lambda1 = lambda0/lamdown;
-        dtempmat = [djacmat; lambda1*diag(scales)];
-        delta = dtempmat\rhs;    
-        alpha1 = alpha - delta;
+        delta1 = varpro2_solve_special(rjac,lambda1*diag(scalespvt),rhs);
+        delta1(jpvt(1:ia)) = delta1; % unscramble solution
+
+        alpha1 = alpha - delta1;
         phimat = phi(alpha1,t);
         b1 = phimat\y;
         res1 = y-phimat*b1;
@@ -195,11 +205,9 @@ for iter = 1:maxiter
         for j = 1:maxlam
         
             lambda0 = lambda0*lamup;
-            dtempmat = [djacmat; lambda0*diag(scales)];
-
-            rhs = [res(:); zeros(ia,1)];
+            delta0 = varpro2_solve_special(rjac,lambda0*diag(scalespvt),rhs);
+            delta0(jpvt(1:ia)) = delta0; % unscramble solution
             
-            delta0 = dtempmat\rhs;
             alpha0 = alpha - delta0;
 
             phimat = phi(alpha0,t);
@@ -292,5 +300,52 @@ else
         error(optstr3,in);
     end
 end
+
+end
+
+function x = varpro2_solve_special(R,D,b)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Solves a system of the form 
+% 
+%     [ R ] 
+%     [---] x = b   
+%     [ D ] 
+% 
+% Where R is upper triangular and D is 
+% diagonal, using orthogonal reflectors as 
+% described in:
+%
+% Gene H. Golub and V. Pereyra, 'The Differentiation of 
+%   Pseudo-inverses and Nonlinear Least Squares Problems 
+%   Whose Variables Separate,' SIAM J. Numer. Analysis 10, 
+%   413-432 (1973).
+%
+% Fill-in is reduced for such a system. This
+% routine does not pivot
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A = [R; D];
+[m,n] = size(R);
+[ma,na] = size(A);
+if (ma ~= length(b) || ma ~= m+n || na ~= n)
+    error('something went wrong')
+end
+
+for i = 1:n
+    ind = [i, m+1:m+i];
+    u = A(ind,i);
+    sigma =  norm(u);
+    beta = 1/(sigma*(sigma+abs(u(1))));
+    u(1) = sign(u(1))*(sigma+abs(u(1)));
+    A(ind,i:end) = A(ind,i:end)-beta*u*(u'*A(ind,i:end));
+    b(ind) = b(ind)-beta*u*(u'*b(ind));
+end
+
+RA = triu(A);
+RA = RA(1:n,1:n);
+
+x = RA\b(1:n);
 
 end
