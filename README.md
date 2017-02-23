@@ -4,6 +4,14 @@ Code for creating the examples in the paper "Variable
 projection methods for debiasing and generalizing
 the dynamic mode decomposition"
 
+## Set-up
+
+These codes make use of Timothy Toolan's MatLab
+scripts for calling LAPACK functions. These require
+that you compile a mex binary, but the process is
+largely automated. Open MatLab and run setup.m
+to install. Enter "y" when prompted.
+
 ## To run
 
 Be sure to add the "src" directory to MatLab's path.
@@ -20,7 +28,7 @@ github.com/askhamwhat
 
 ## License 
 
-The files in this directory are available under the MIT license unless noted otherwise (see license* files in src directory).
+The files in the "src" and "examples" directories are available under the MIT license unless noted otherwise (see license* files in src directory).
 
 The MIT License (MIT)
 
