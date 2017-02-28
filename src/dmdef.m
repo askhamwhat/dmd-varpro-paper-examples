@@ -44,6 +44,8 @@ function [w,e,b,varargout] = dmdef(X,t,r,imode,varargin)
 %
 % Travis Askham 2017
 %
+% MIT License
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if ((imode == 2 || nargout > 3 || nargin < 6 || isempty(varargin{2})) ...

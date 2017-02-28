@@ -1,4 +1,4 @@
-function [b,alpha,niter,err,imode,alphas] = varpro2stab(y,t,phi,dphi,m,n,is,ia, ...
+function [b,alpha,niter,err,imode,alphas] = varpro2(y,t,phi,dphi,m,n,is,ia, ...
     alpha_init,opts)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -50,6 +50,8 @@ function [b,alpha,niter,err,imode,alphas] = varpro2stab(y,t,phi,dphi,m,n,is,ia, 
 %                       at step niter
 %
 % Author: Travis Askham, 2017
+%
+% Available under the MIT license
 %
 % References: 
 % - Extensions and Uses of the Variable Projection 
