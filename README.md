@@ -12,7 +12,14 @@ that you compile a mex binary, but the process is
 largely automated. Open MatLab and run setup.m
 to install. Enter "y" when prompted.
 
-## To run
+## How to use
+
+If you'd like to see how to use the DMDEF wrappers
+(for computing the dynamic mode decomposition via
+exponential fitting) the best place to start is
+to check out simple_example.m (in "examples" folder)
+
+## To run the figure generation (may take a while)
 
 Be sure to add the "src" directory to MatLab's path.
 The scripts for running the examples are found in the
