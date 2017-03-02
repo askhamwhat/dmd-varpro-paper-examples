@@ -23,8 +23,9 @@ to check out simple_example.m (in "examples" folder)
 
 Be sure to add the "src" directory to MatLab's path.
 The scripts for running the examples are found in the
-"examples" folder. To run all of them at once, see 
-"run_all_examples.m". 
+"examples" folder. To run all of them at once (just
+generating dat), see "run_all_examples.m". Then, to
+create figures, see the individual *figs.m files.
 
 ## Updates
 
