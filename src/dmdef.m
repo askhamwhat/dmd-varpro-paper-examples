@@ -127,9 +127,9 @@ else
     % fit to all of data
     
     m = length(t);
-    [n,~] = size(X);
+    [is,~] = size(X);
     ia = r;
-    is = r;
+    n = r;
     [w,e,niter,err,imode,alphas] = varpro2(transpose(X),t, ...
         @varpro2expfun,@varpro2dexpfun,m,n,is,ia,alpha_init,opts);
     

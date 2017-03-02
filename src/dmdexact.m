@@ -58,7 +58,40 @@ elseif (imode == 2)
         [u,~,~] = svd(X,'econ');
         u = u(:,1:r);
     end
-        
+    
+    % exact (but projected) DMD
+
+    X1 = u'*X(:,1:end-1);
+    X2 = u'*X(:,2:end);
+
+    [u1,s1,v1] = svd(X1,'econ');
+
+    u1 = u1(:,1:r);
+    v1 = v1(:,1:r);
+    s1 = s1(1:r,1:r);
+
+    % similar --- but not equal --- to true A
+
+    atilde = u1'*X2*(v1/s1);
+
+    [w,e] = eig(atilde);
+
+    % dmd eigenvalues
+
+    e = diag(e);
+
+    % dmd eigenvectors
+
+    w = X2*(v1*(s1\w));
+    w = u*w;
+
+    if (nargout > 3)
+
+        % build approximation of true A
+
+        varargout{1} = w*diag(e)*pinv(w);
+    end
+    
     
 end
 
