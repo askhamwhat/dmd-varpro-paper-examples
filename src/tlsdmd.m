@@ -11,10 +11,7 @@ if (imode == 1)
     
     % exact (unprojected) tlsDMD
     
-    X1 = X(:,1:end-1);
-    X2 = X(:,2:end);
-
-    Z = [X1; X2];
+    Z = [X(:,1:end-1); X(:,2:end)];
 
     [u1,~,~] = svd(Z,'econ');
 
@@ -47,12 +44,9 @@ elseif (imode == 2)
         [u,~,~] = svd(X,'econ');
         u = u(:,1:r);
     end
-
-    X1 = X(:,1:end-1);
-    X2 = X(:,2:end);
     
-    ux1 = u'*X1;
-    ux2 = u'*X2;
+    ux1 = u'*X(:,1:end-1);
+    ux2 = u'*X(:,2:end);
         
     Z = [ux1; ux2];
 

@@ -105,9 +105,9 @@ fprintf('relative error of eigenvalues %e\n',relerr_e)
 
 % let's set some optimization parameters
 
-maxiter = 30;
-tol = sigma/100;
-eps_stall = 1e-9;
+maxiter = 30; % maximum number of iterations
+tol = sigma/100; % tolerance of fit
+eps_stall = 1e-9; % tolerance for detecting a stalled optimization
 opts = varpro_opts('maxiter',maxiter,'tol',tol,'eps_stall',eps_stall);
 
 % generate a pod basis using a randomized svd

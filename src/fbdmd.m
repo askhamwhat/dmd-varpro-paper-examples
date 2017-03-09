@@ -39,7 +39,20 @@ if (imode < 3)
     
 else
     
-    [u,~,~] = svd(X,'econ');
+    if (nargin > 3)
+        
+        [n,~] = size(X);
+        u = varargin{1};
+        [ntemp,rtemp] = size(u);
+        if (rtemp ~= r || ntemp ~= n)
+            error('size of basis incorrect for projection')
+        end
+        
+    else
+    
+        [u,~,~] = svd(X,'econ');
+        
+    end
     
     u = u(:,1:r);
     
