@@ -14,10 +14,10 @@ to install. Enter "y" when prompted.
 
 ## How to use
 
-If you'd like to see how to use the DMDEF wrappers
-(for computing the dynamic mode decomposition via
-exponential fitting) the best place to start is
-to check out simple_example.m (in "examples" folder)
+If you'd like to see how to use the OPTDMD wrappers
+(for computing the optimized dynamic mode decomposition)
+the best place to start is to check out simple_example.m
+(in "examples" folder)
 
 ## To run the figure generation (may take a while)
 
