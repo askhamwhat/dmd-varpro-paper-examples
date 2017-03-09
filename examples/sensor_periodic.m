@@ -119,7 +119,7 @@ for i = 1:nm
             eigsave3(1:mrank,jjj,iii,i) = e(indices);
             asave3(:,:,jjj,iii,i) = afull;            
 
-            %% dmdef
+            %% optdmd
 
             maxiter = 30;
             tol = sigma/10;
@@ -127,7 +127,7 @@ for i = 1:nm
             opts = varpro_opts('maxiter',maxiter,'tol',tol,'eps_stall',1e-9);
             
             imode = 2; % projected version
-            [w,e,b,atilde,~,afull] = dmdef(X,t,r,imode,opts);
+            [w,e,b,atilde,~,afull] = optdmd(X,t,r,imode,opts);
 
             indices = match_vectors(e,evals(1:mrank));
 

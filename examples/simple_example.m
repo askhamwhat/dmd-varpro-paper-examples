@@ -6,7 +6,7 @@
 % spatial modes, each with time dynamics 
 % which are exponential in time
 %
-% The examples show how to call the dmdef
+% The examples show how to call the optdmd
 % wrapper with various options
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,7 +64,7 @@ r = 3;
 % 1 --- fit to unprojected data
 
 imode = 1;
-[w,e,b] = dmdef(xdata,ts,r,imode);
+[w,e,b] = optdmd(xdata,ts,r,imode);
 
 % reconstructed values
 x1 = w*diag(b)*exp(e*ts);
@@ -84,7 +84,7 @@ fprintf('relative error of eigenvalues %e\n',relerr_e)
 % pod modes)
 
 imode = 2;
-[w,e,b] = dmdef(xdata,ts,r,imode);
+[w,e,b] = optdmd(xdata,ts,r,imode);
 
 % reconstructed values
 x1 = w*diag(b)*exp(e*ts);
@@ -95,7 +95,7 @@ relerr_r_clean = norm(x1-xclean,'fro')/norm(xclean,'fro');
 indices = match_vectors(e,evals);
 relerr_e = norm(e(indices)-evals)/norm(evals);
 
-fprintf('example 2 --- fitting data projected by dmdef on POD modes\n')
+fprintf('example 2 --- fitting data projected by optdmd on POD modes\n')
 fprintf('relative error in reconstruction %e\n',relerr_r)
 fprintf('relative error w.r.t clean data %e\n',relerr_r_clean)
 fprintf('relative error of eigenvalues %e\n',relerr_e)
@@ -117,7 +117,7 @@ opts = varpro_opts('maxiter',maxiter,'tol',tol,'eps_stall',eps_stall);
 [u,~,~] = randsvd2(xdata,r,3);
 
 imode = 2;
-[w,e,b] = dmdef(xdata,ts,r,imode,opts,[],u);
+[w,e,b] = optdmd(xdata,ts,r,imode,opts,[],u);
 
 % reconstructed values
 x1 = w*diag(b)*exp(e*ts);
@@ -140,7 +140,7 @@ fprintf('relative error of eigenvalues %e\n',relerr_e)
 e_init = randn(3,1);
 
 imode = 2;
-[w,e,b] = dmdef(xdata,ts,r,imode,[],e_init);
+[w,e,b] = optdmd(xdata,ts,r,imode,[],e_init);
 
 % reconstructed values
 x1 = w*diag(b)*exp(e*ts);

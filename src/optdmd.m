@@ -1,8 +1,8 @@
-function [w,e,b,varargout] = dmdef(X,t,r,imode,varargin)
+function [w,e,b,varargout] = optdmd(X,t,r,imode,varargin)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Wrapper for computing the DMD of data via
-% exponential fitting (dmdef)
+% exponential fitting (optdmd)
 %
 % Makes use of varpro2 routines
 %

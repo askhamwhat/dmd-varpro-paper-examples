@@ -17,7 +17,7 @@ prettyfigs_dvp
 % method 1 - dmd
 % method 2 - fbdmd
 % method 3 - tlsdmd
-% method 4 - dmdef
+% method 4 - optdmd
 
 filename = 'sensor_periodic.mat';
 load(filename);

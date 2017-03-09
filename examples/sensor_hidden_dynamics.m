@@ -114,7 +114,7 @@ for i = 1:nm
             indices = match_vectors(e,evals(1:mrank));
             eigsave3(1:mrank,jjj,iii,i) = e(indices);
 
-            %% dmdef
+            %% optdmd
 
             maxiter = 30;
             tol = sigma/10;
@@ -123,7 +123,7 @@ for i = 1:nm
             
             imode = 2; % projected version
             tdmd = t(1:m);
-            [w,e,b,atilde] = dmdef(X,tdmd,r,imode,opts);
+            [w,e,b,atilde] = optdmd(X,tdmd,r,imode,opts);
 
             indices = match_vectors(e,evals(1:mrank));
 
