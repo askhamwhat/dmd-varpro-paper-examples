@@ -146,5 +146,25 @@ scatter(c3(1),c3(2),'rs')
 scatter(c4(1),c4(2),'gx')
 scatter(real(devals(ieig)),imag(devals(ieig)),'mo')
 
+% reconstruction errors
+
+figure(4)
+
+temp = mean(rerrsave1);
+rerr1 = transpose(reshape(temp,nsigs,nm));
+temp = mean(rerrsave2);
+rerr2 = transpose(reshape(temp,nsigs,nm));
+temp = mean(rerrsave3);
+rerr3 = transpose(reshape(temp,nsigs,nm));
+temp = mean(rerrsave4);
+rerr4 = transpose(reshape(temp,nsigs,nm));
 
 
+for j = 1:4
+    subplot(2,2,j) 
+    loglog(ms,rerr1(:,j),'-.kd')
+    hold on
+    loglog(ms,rerr2(:,j),'--b+')
+    loglog(ms,rerr3(:,j),'--rs')
+    loglog(ms,rerr4(:,j),'-.gx')
+end

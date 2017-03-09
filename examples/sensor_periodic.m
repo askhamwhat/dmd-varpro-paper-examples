@@ -66,6 +66,11 @@ eigsave2 = zeros(mrank,ntrials,nsigs,nm);
 eigsave3 = zeros(mrank,ntrials,nsigs,nm);
 eigsave4 = zeros(mrank,ntrials,nsigs,nm);
 
+rerrsave1 = zeros(ntrials,nsigs,nm);
+rerrsave2 = zeros(ntrials,nsigs,nm);
+rerrsave3 = zeros(ntrials,nsigs,nm);
+rerrsave4 = zeros(ntrials,nsigs,nm);
+
 asave1 = zeros(mrank,mrank,ntrials,nsigs,nm);
 asave2 = zeros(mrank,mrank,ntrials,nsigs,nm);
 asave3 = zeros(mrank,mrank,ntrials,nsigs,nm);
@@ -94,8 +99,11 @@ for i = 1:nm
 
             indices = match_vectors(e,evals(1:mrank));
             
+            [Xr,rerr] = best_reconstruction(X,e,t);
+            
             eigsave1(1:mrank,jjj,iii,i) = e(indices);
             asave1(:,:,jjj,iii,i) = afull;
+            rerrsave1(jjj,iii,i) = rerr;
             
             %% forward-backward dmd 
 
@@ -104,9 +112,12 @@ for i = 1:nm
             
             e = log(e)/dt;
 
+            [Xr,rerr] = best_reconstruction(X,e,t);
+            
             indices = match_vectors(e,evals(1:mrank));
             eigsave2(1:mrank,jjj,iii,i) = e(indices);
             asave2(:,:,jjj,iii,i) = atilde;
+            rerrsave2(jjj,iii,i) = rerr;
             
             %% total-least squares dmd 
 
@@ -116,9 +127,12 @@ for i = 1:nm
 
             indices = match_vectors(e,evals(1:mrank));
 
+            [Xr,rerr] = best_reconstruction(X,e,t);
+            
             eigsave3(1:mrank,jjj,iii,i) = e(indices);
             asave3(:,:,jjj,iii,i) = afull;            
-
+            rerrsave3(jjj,iii,i) = rerr;
+            
             %% optdmd
 
             maxiter = 30;
@@ -131,9 +145,12 @@ for i = 1:nm
 
             indices = match_vectors(e,evals(1:mrank));
 
+            [Xr,rerr] = best_reconstruction(X,e,t);
+            
             eigsave4(1:mrank,jjj,iii,i) = e(indices);
             asave4(:,:,jjj,iii,i) = afull;
-
+            rerrsave4(jjj,iii,i) = rerr;
+            
             sigs(iii,jjj,i) = sigma;
 
             %s = sprintf('iii %i jjj %i',iii,jjj);
@@ -143,7 +160,10 @@ for i = 1:nm
     end
 end
 
+%%
+
 filename = 'sensor_periodic.mat';
 save(filename,'eigsave1','eigsave2','eigsave3','eigsave4', ...
     'asave1','asave2','asave3','asave4','sigs','ms','A','Admd','dt', ...
-    'Xclean','evals');
+    'Xclean','evals','rerrsave1','rerrsave2','rerrsave3',...
+    'rerrsave4');
