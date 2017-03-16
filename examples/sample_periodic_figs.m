@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generate figures for 
 % periodic system example with
-% additive sensor noise
+% uncertain sample times
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 close all;
@@ -19,7 +19,7 @@ prettyfigs_dvp
 % method 3 - tlsdmd
 % method 4 - optdmd
 
-filename = 'sensor_periodic.mat';
+filename = 'sample_periodic.mat';
 load(filename);
 
 devals = diag(evals);
@@ -70,7 +70,7 @@ end
 
 % call saving routine
 
-save_conv_plot_v1(1,'senper_reca');
+save_conv_plot_v1(1,'samper_reca');
 
 %% errors in eigenvalues
 
@@ -115,17 +115,17 @@ end
 
 % call saving routine
 
-save_conv_plot_v1(2,'senper_eig');
+save_conv_plot_v1(2,'samper_eig');
 
 
-%% plot confidence ellipses for second highest noise, 
+%% plot confidence ellipses for highest noise, 
 % fewest snapshots case for the first 
 % eigenvalue
 
 figure(3)
 
-ieig = 2;
-jsig = 2;
+ieig = 1;
+jsig = 1;
 km = 1;
 
 zdat1 = transpose(eigsave1(ieig,:,jsig,km));
@@ -161,7 +161,7 @@ scatter(real(devals(ieig)),imag(devals(ieig)),'mo')
 
 % call saving routine
 
-save_conf_ellipses(3,'senper_eig_conf');
+save_conf_ellipses(3,'samper_eig_conf');
 
 
 %% reconstruction errors
@@ -191,4 +191,4 @@ end
 
 % call saving routine
 
-save_conv_plot_v1(4,'senper_rec');
+save_conv_plot_v1(4,'samper_rec');

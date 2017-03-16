@@ -20,8 +20,8 @@ moffset = 6;
 nm = 3;
 maxm = 2^(moffset+nm);
 
-nsigs = 8; % noise levels
-ntrials = 100; % number of trials for each
+nsigs = 6; % noise levels
+ntrials = 1000; % number of trials for each
 
 % system settings
 
@@ -64,7 +64,7 @@ ms = zeros(nm,1);
 % 1 - exact dmd
 % 2 - forward-backward dmd
 % 3 - total least squares dmd
-% 4 - dmdu
+% 4 - optimized dmd
 
 eigsave1 = zeros(mrank,ntrials,nsigs,nm);
 eigsave2 = zeros(mrank,ntrials,nsigs,nm);
@@ -76,6 +76,10 @@ rerrsave2 = zeros(ntrials,nsigs,nm);
 rerrsave3 = zeros(ntrials,nsigs,nm);
 rerrsave4 = zeros(ntrials,nsigs,nm);
 
+rgds = zeros(ntrials,nsigs,nm);
+r99s = zeros(ntrials,nsigs,nm);
+r999s = zeros(ntrials,nsigs,nm);
+r90s = zeros(ntrials,nsigs,nm);
 
 for i = 1:nm
     m = 2^(moffset+i);
@@ -91,8 +95,21 @@ for i = 1:nm
 
             r = mrank;
             
-            [u,~,~] = svd(X,'econ');
+            [u,s,~] = svd(X,'econ');
             u = u(:,1:r);
+            
+            % rank estimation, various methods
+            
+            sd = diag(s);
+            [nx,mx] = size(X);
+            beta = min(nx*1.0/mx,mx*1.0/nx);
+            
+            gdfac = optimal_SVHT_coef(beta,0);
+            
+            rgds(jjj,iii,i) = sum(sd > gdfac*median(sd));
+            r999s(jjj,iii,i) = sum(cumsum(sd) < .999*sum(sd))+1;
+            r99s(jjj,iii,i) = sum(cumsum(sd) < .99*sum(sd))+1;
+            r90s(jjj,iii,i) = sum(cumsum(sd) < .90*sum(sd))+1;
             
             %% exact dmd 
 
@@ -153,12 +170,9 @@ for i = 1:nm
 
             sigs(iii,jjj,i) = sigma;
 
-            %s = sprintf('iii %i jjj %i',iii,jjj);
-            %disp(s)
-            %fprintf('iii %i jjj %i i %i\n',iii,jjj,i)
-            fprintf('%e percent complete\n',...
-                100*((i-1)*nsigs*ntrials+(iii-1)*ntrials+jjj)/...
-                (1.0*nsigs*ntrials*nm))
+            %fprintf('%e percent complete\n',...
+            %    100*((i-1)*nsigs*ntrials+(iii-1)*ntrials+jjj)/...
+            %    (1.0*nsigs*ntrials*nm))
 
         end
     end
@@ -169,4 +183,4 @@ end
 filename = 'sensor_hidden_dynamics.mat';
 save(filename,'eigsave1','eigsave2','eigsave3','eigsave4', ...
     'sigs','ms','dt','Xclean','evals','tt','xx','rerrsave1',...
-    'rerrsave2','rerrsave3','rerrsave4');
+    'rerrsave2','rerrsave3','rerrsave4','rgds','r99s','r999s','r90s');

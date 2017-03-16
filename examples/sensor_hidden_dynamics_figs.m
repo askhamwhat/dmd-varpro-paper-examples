@@ -3,7 +3,7 @@
 % Generate figures for 
 % hidden dynamics system example with
 % additive sensor noise
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 close all;
 clear all;
@@ -62,14 +62,21 @@ end
 
 figure(1)
 
-for j = 1:4
-    subplot(2,2,j)
+for j = 1:5
+    subplot(2,3,j)
     loglog(ms,erreig1dom(:,j),'-.kd')
+    s = sprintf('$\\sigma^2 = %f$',sigs(j)^2);
+    title(s,'interpreter','LaTeX')
+    
     hold on
     loglog(ms,erreig2dom(:,j),'--b+')
     loglog(ms,erreig3dom(:,j),'--rs')
     loglog(ms,erreig4dom(:,j),'-.gx')
 end
+
+% call saving routine
+
+save_conv_plot_v1(1,'senhid_dom_eig');
 
 %% errors in eigenvalues (HIDDEN)
 
@@ -103,24 +110,36 @@ end
 % plot errors
 
 figure(2)
+clf
 
-for j = 1:4
-    subplot(2,2,j)
+for j = 1:5
+    subplot(2,3,j)
     loglog(ms,erreig1hid(:,j),'-.kd')
+    s = sprintf('$\\sigma^2 = %f$',sigs(j)^2);
+    title(s,'interpreter','LaTeX')
     hold on
     loglog(ms,erreig2hid(:,j),'--b+')
     loglog(ms,erreig3hid(:,j),'--rs')
     loglog(ms,erreig4hid(:,j),'-.gx')
 end
 
+fig = figure(2);
+
+% call saving routine
+
+save_conv_plot_v1(2,'senhid_hid_eig');
+
+%%
+
 % plot confidence ellipses for highest noise, 
 % fewest snapshots case for the first 
 % eigenvalue of dominant type
 
 figure(3)
+clf
 
 ieig = idom(1);
-jsig = 2;
+jsig = 1;
 km = 1;
 
 zdat1 = transpose(eigsave1(ieig,:,jsig,km));
@@ -134,10 +153,10 @@ zdat4 = transpose(eigsave4(ieig,:,jsig,km));
 [c4,ax4,lens4] = zconf95(zdat4);
 
 ts = linspace(0,2*pi,1000);
-xys1 = c1' + ax1(:,1)*lens1(1)*cos(ts)+ax1(:,2)*lens1(2)*sin(ts);
-xys2 = c2' + ax2(:,1)*lens2(1)*cos(ts)+ax2(:,2)*lens2(2)*sin(ts);
-xys3 = c3' + ax3(:,1)*lens3(1)*cos(ts)+ax3(:,2)*lens3(2)*sin(ts);
-xys4 = c4' + ax4(:,1)*lens4(1)*cos(ts)+ax4(:,2)*lens4(2)*sin(ts);
+xys1 = c1'*ones(size(ts)) + ax1(:,1)*lens1(1)*cos(ts)+ax1(:,2)*lens1(2)*sin(ts);
+xys2 = c2'*ones(size(ts)) + ax1(:,1)*lens1(1)*cos(ts)+ax1(:,2)*lens1(2)*sin(ts); + ax2(:,1)*lens2(1)*cos(ts)+ax2(:,2)*lens2(2)*sin(ts);
+xys3 = c3'*ones(size(ts)) + ax1(:,1)*lens1(1)*cos(ts)+ax1(:,2)*lens1(2)*sin(ts); + ax3(:,1)*lens3(1)*cos(ts)+ax3(:,2)*lens3(2)*sin(ts);
+xys4 = c4'*ones(size(ts)) + ax1(:,1)*lens1(1)*cos(ts)+ax1(:,2)*lens1(2)*sin(ts); + ax4(:,1)*lens4(1)*cos(ts)+ax4(:,2)*lens4(2)*sin(ts);
 
 plot(xys1(1,:),xys1(2,:),'-.k')
 hold on
@@ -154,6 +173,11 @@ scatter(c3(1),c3(2),'rs')
 scatter(c4(1),c4(2),'gx')
 scatter(real(devals(ieig)),imag(devals(ieig)),'mo')
 
+% call saving routine
+
+save_conf_ellipses(3,'senhid_dom_conf');
+
+%%
 
 % plot confidence ellipses for highest noise, 
 % fewest snapshots case for the first 
@@ -162,7 +186,7 @@ scatter(real(devals(ieig)),imag(devals(ieig)),'mo')
 figure(4)
 
 ieig = ihid(1);
-jsig = 2;
+jsig = 1;
 km = 1;
 
 zdat1 = transpose(eigsave1(ieig,:,jsig,km));
@@ -176,10 +200,10 @@ zdat4 = transpose(eigsave4(ieig,:,jsig,km));
 [c4,ax4,lens4] = zconf95(zdat4);
 
 ts = linspace(0,2*pi,1000);
-xys1 = c1' + ax1(:,1)*lens1(1)*cos(ts)+ax1(:,2)*lens1(2)*sin(ts);
-xys2 = c2' + ax2(:,1)*lens2(1)*cos(ts)+ax2(:,2)*lens2(2)*sin(ts);
-xys3 = c3' + ax3(:,1)*lens3(1)*cos(ts)+ax3(:,2)*lens3(2)*sin(ts);
-xys4 = c4' + ax4(:,1)*lens4(1)*cos(ts)+ax4(:,2)*lens4(2)*sin(ts);
+xys1 = c1'*ones(size(ts)) + ax1(:,1)*lens1(1)*cos(ts)+ax1(:,2)*lens1(2)*sin(ts);
+xys2 = c2'*ones(size(ts)) + ax2(:,1)*lens2(1)*cos(ts)+ax2(:,2)*lens2(2)*sin(ts);
+xys3 = c3'*ones(size(ts)) + ax3(:,1)*lens3(1)*cos(ts)+ax3(:,2)*lens3(2)*sin(ts);
+xys4 = c4'*ones(size(ts)) + ax4(:,1)*lens4(1)*cos(ts)+ax4(:,2)*lens4(2)*sin(ts);
 
 plot(xys1(1,:),xys1(2,:),'-.k')
 hold on
@@ -196,10 +220,11 @@ scatter(c3(1),c3(2),'rs')
 scatter(c4(1),c4(2),'gx')
 scatter(real(devals(ieig)),imag(devals(ieig)),'mo')
 
+% call saving routine
 
+save_conf_ellipses(4,'senhid_hid_conf');
 
-
-% reconstruction errors
+%% reconstruction errors
 
 figure(5)
 
@@ -213,13 +238,64 @@ temp = mean(rerrsave4);
 rerr4 = transpose(reshape(temp,nsigs,nm));
 
 
-for j = 1:4
-    subplot(2,2,j) 
+for j = 1:5
+    subplot(2,3,j) 
     loglog(ms,rerr1(:,j),'-.kd')
+    s = sprintf('$\\sigma^2 = %f$',sigs(j)^2);
+    title(s,'interpreter','LaTeX')
+    
     hold on
     loglog(ms,rerr2(:,j),'--b+')
     loglog(ms,rerr3(:,j),'--rs')
     loglog(ms,rerr4(:,j),'-.gx')
 end
 
+% call saving routine
 
+save_conv_plot_v1(5,'senhid_rec');
+
+%% plot 99.9%, 99%, 90% ranks
+
+figure(6)
+
+temp = mean(rgds);
+rgds1 = transpose(reshape(temp,nsigs,nm));
+temp = mean(r999s);
+r999s1 = transpose(reshape(temp,nsigs,nm));
+temp = mean(r99s);
+r99s1 = transpose(reshape(temp,nsigs,nm));
+temp = mean(r90s);
+r90s1 = transpose(reshape(temp,nsigs,nm));
+
+for j = 1:5
+    subplot(2,3,j) 
+    loglog(ms,rgds1(:,j),'-.kd')
+    s = sprintf('$\\sigma^2 = %f$',sigs(j)^2);
+    title(s,'interpreter','LaTeX')
+    
+    hold on
+    loglog(ms,r999s1(:,j),'--b+')
+    loglog(ms,r99s1(:,j),'--rs')
+    loglog(ms,r90s1(:,j),'-.gx')
+end
+
+save_rank_plot(6,'senhid_rank');
+
+%% timing info
+
+figure(7)
+
+clf
+
+load('sensor_hidden_dynamics_times')
+
+loglog(ms,mean(timesave1)./mean(timesave1),'-.kd')
+hold on
+loglog(ms,mean(timesave2)./mean(timesave1),'--b+')
+loglog(ms,mean(timesave3)./mean(timesave1),'--rs')
+loglog(ms,mean(timesave4)./mean(timesave1),'-.gx')
+
+
+% call saving routine
+
+save_conv_plot_v2(7,'senhid_times');

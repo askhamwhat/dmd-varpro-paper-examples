@@ -1,9 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Generate data for periodic system example 
-% with additive sensor noise
+% with uncertain sample times
 %
-% Run time:  ~ 45 mins on Intel i7 laptop
+% Run time: ~ 1 hour on Intel i7 laptop
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -47,7 +47,7 @@ Xcoeffs = abasis\Xclean(:,1);
 for i = 2:maxm
     Xclean(:,i) = abasis*diag(exp(diag(evals*dt*(i-1))))*Xcoeffs;
 end
- 
+
 %% storage
 
 sigs = zeros(nsigs,1);
@@ -71,11 +71,6 @@ rerrsave2 = zeros(ntrials,nsigs,nm);
 rerrsave3 = zeros(ntrials,nsigs,nm);
 rerrsave4 = zeros(ntrials,nsigs,nm);
 
-rgds = zeros(ntrials,nsigs,nm);
-r99s = zeros(ntrials,nsigs,nm);
-r999s = zeros(ntrials,nsigs,nm);
-r90s = zeros(ntrials,nsigs,nm);
-
 asave1 = zeros(mrank,mrank,ntrials,nsigs,nm);
 asave2 = zeros(mrank,mrank,ntrials,nsigs,nm);
 asave3 = zeros(mrank,mrank,ntrials,nsigs,nm);
@@ -86,15 +81,20 @@ for i = 1:nm
     ms(i) = m;
     t = (0:(m-1))*dt;
     for iii = 1:nsigs
-        sigma = sqrt(10^(-(1+2*(iii-1))));
+        %sigma = sqrt(10^(-(1+2*(iii-1))));
+        sigma = sqrt(2^(-2*iii));
         sigs(iii) = sigma;
         for jjj = 1:ntrials
 
-            xrand = randn(size(Xclean(:,1:m)));
-            X = Xclean(:,1:m) + sigma*xrand;
+            trand = t + dt*randn(size(t))*sigma;
+    
+            X = zeros(mrank,m);
+            for l = 1:m
+                X(:,l) = abasis*diag(exp(diag(evals*trand(l))))*Xcoeffs;
+            end
 
             r = mrank;
-            
+
             %% exact dmd 
 
             imode = 1;
@@ -141,7 +141,7 @@ for i = 1:nm
             %% optdmd
 
             maxiter = 30;
-            tol = sigma/10;
+            tol = sigma/1000;
 
             opts = varpro_opts('maxiter',maxiter,'tol',tol,'eps_stall',1e-9);
             
@@ -158,8 +158,8 @@ for i = 1:nm
             
             sigs(iii,jjj,i) = sigma;
 
-            %s = sprintf('iii %i jjj %i',iii,jjj);
-            %disp(s)
+            s = sprintf('iii %i jjj %i i %i',iii,jjj, i);
+            disp(s)
 
         end
     end
@@ -167,8 +167,8 @@ end
 
 %%
 
-filename = 'sensor_periodic.mat';
+filename = 'sample_periodic.mat';
 save(filename,'eigsave1','eigsave2','eigsave3','eigsave4', ...
     'asave1','asave2','asave3','asave4','sigs','ms','A','Admd','dt', ...
     'Xclean','evals','rerrsave1','rerrsave2','rerrsave3',...
-    'rerrsave4','rgds','r99s','r999s','r90s');
+    'rerrsave4');

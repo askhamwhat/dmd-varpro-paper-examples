@@ -17,3 +17,5 @@ set(groot,'defaultTextColor',[fg fg fg])
 
 set(groot, 'defaultLineMarkerSize',10)
 set(groot, 'defaultLineLineWidth',2)
+
+format shorte
