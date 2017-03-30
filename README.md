@@ -32,7 +32,7 @@ create figures, see the individual *figs.m files.
 This directory is meant to be something of a snapshot
 of the codes as they were used for generating the
 examples. For the most up-to-date versions, see 
-[the optdmd repository](github.com/askhamwhat/optdmd).
+[the optdmd repository](https://github.com/askhamwhat/optdmd).
 
 
 ## Citing this software
@@ -40,7 +40,7 @@ examples. For the most up-to-date versions, see
 To cite this figure generation package specifically
 (not recommended) follow this Zenodo link: 
 [![DOI](https://zenodo.org/badge/82845075.svg)](https://zenodo.org/badge/latestdoi/82845075). To cite the optdmd software generally, see 
-[the optdmd repository](github.com/askhamwhat/optdmd).
+[the optdmd repository](https://github.com/askhamwhat/optdmd).
 
 ## License 
 
