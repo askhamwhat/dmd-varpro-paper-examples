@@ -34,11 +34,13 @@ of the codes as they were used for generating the
 examples. For the most up-to-date versions, see 
 [the optdmd repository](github.com/askhamwhat/optdmd).
 
+
 ## Citing this software
 
 To cite this figure generation package specifically
 (not recommended) follow this Zenodo link: 
-[![DOI](https://zenodo.org/badge/82845075.svg)](https://zenodo.org/badge/latestdoi/82845075)
+[![DOI](https://zenodo.org/badge/82845075.svg)](https://zenodo.org/badge/latestdoi/82845075). To cite the optdmd software generally, see 
+[the optdmd repository](github.com/askhamwhat/optdmd).
 
 ## License 
 
