@@ -25,7 +25,6 @@ function [xr,err] = best_reconstruction(x,e,t)
 Phi = varpro2expfun(e,t);
 
 b = Phi\transpose(x);
-
 xr = transpose(Phi*b);
 
 err = norm(x-xr,'fro')/norm(x,'fro');

@@ -66,6 +66,11 @@ for j = 1:5
     loglog(ms,erramat2(:,j),'--b+')
     loglog(ms,erramat3(:,j),'--rs')
     loglog(ms,erramat4(:,j),'-.gx')
+    allerr = [erramat1(:,j), erramat2(:,j), erramat3(:,j), erramat4(:,j)];
+    allerr = allerr(:);
+    set(gca,'XLim',[min(ms) max(ms)],'YLim',[min(allerr) max(allerr)], ...
+        'XTick',ms(1:3:end))
+
 end
 
 % call saving routine
@@ -111,6 +116,10 @@ for j = 1:5
     loglog(ms,erreig2(:,j),'--b+')
     loglog(ms,erreig3(:,j),'--rs')
     loglog(ms,erreig4(:,j),'-.gx')
+    allerr = [erreig1(:,j), erreig2(:,j), erreig3(:,j), erreig4(:,j)];
+    allerr = allerr(:);
+    set(gca,'XLim',[min(ms) max(ms)],'YLim',[min(allerr) max(allerr)], ...
+        'XTick',ms(1:3:end))
 end
 
 % call saving routine
@@ -187,6 +196,10 @@ for j = 1:5
     loglog(ms,rerr2(:,j),'--b+')
     loglog(ms,rerr3(:,j),'--rs')
     loglog(ms,rerr4(:,j),'-.gx')
+    allerr = [rerr1(:,j), rerr2(:,j), rerr3(:,j), rerr4(:,j)];
+    allerr = allerr(:);
+    set(gca,'XLim',[min(ms) max(ms)],'YLim',[min(allerr) max(allerr)], ...
+        'XTick',ms(1:3:end))
 end
 
 % call saving routine

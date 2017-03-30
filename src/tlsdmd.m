@@ -45,9 +45,10 @@ elseif (imode == 2)
         u = u(:,1:r);
     end
     
-    ux1 = u'*X(:,1:end-1);
-    ux2 = u'*X(:,2:end);
-        
+    ux1 = u'*X;
+    ux2 = ux1(:,2:end);
+    ux1 = ux1(:,1:end-1);
+            
     Z = [ux1; ux2];
 
     [u1,~,~] = svd(Z,'econ');

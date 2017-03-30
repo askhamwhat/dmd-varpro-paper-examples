@@ -72,6 +72,11 @@ for j = 1:5
     loglog(ms,erreig2dom(:,j),'--b+')
     loglog(ms,erreig3dom(:,j),'--rs')
     loglog(ms,erreig4dom(:,j),'-.gx')
+    allerr = [erreig1dom(:,j), erreig2dom(:,j), erreig3dom(:,j), ...
+        erreig4dom(:,j)];
+    allerr = allerr(:);
+    set(gca,'XLim',[min(ms) max(ms)],'YLim',[min(allerr) max(allerr)], ...
+        'XTick',ms)
 end
 
 % call saving routine
@@ -121,6 +126,11 @@ for j = 1:5
     loglog(ms,erreig2hid(:,j),'--b+')
     loglog(ms,erreig3hid(:,j),'--rs')
     loglog(ms,erreig4hid(:,j),'-.gx')
+    allerr = [erreig1hid(:,j), erreig2hid(:,j), erreig3hid(:,j), ...
+        erreig4hid(:,j)];
+    allerr = allerr(:);
+    set(gca,'XLim',[min(ms) max(ms)],'YLim',[min(allerr) max(allerr)], ...
+        'XTick',ms)
 end
 
 fig = figure(2);
@@ -248,6 +258,10 @@ for j = 1:5
     loglog(ms,rerr2(:,j),'--b+')
     loglog(ms,rerr3(:,j),'--rs')
     loglog(ms,rerr4(:,j),'-.gx')
+    allerr = [rerr1(:,j), rerr2(:,j), rerr3(:,j), rerr4(:,j)];
+    allerr = allerr(:);
+    set(gca,'XLim',[min(ms) max(ms)],'YLim',[min(allerr) max(allerr)], ...
+        'XTick',ms)
 end
 
 % call saving routine
@@ -277,6 +291,10 @@ for j = 1:5
     loglog(ms,r999s1(:,j),'--b+')
     loglog(ms,r99s1(:,j),'--rs')
     loglog(ms,r90s1(:,j),'-.gx')
+    allerr = [rgds1(:,j), r999s1(:,j), r99s1(:,j), r90s1(:,j)];
+    allerr = allerr(:);
+    set(gca,'XLim',[min(ms) max(ms)],'YLim',[min(allerr) max(allerr)], ...
+        'XTick',ms)
 end
 
 save_rank_plot(6,'senhid_rank');

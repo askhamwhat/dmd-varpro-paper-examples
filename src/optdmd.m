@@ -68,8 +68,10 @@ if (nargin < 6 || isempty(varargin{2}))
     % use projected trapezoidal rule approximation
     % to eigenvalues as initial guess
     
-    ux1 = u'*(X(:,1:end-1));
-    ux2 = u'*(X(:,2:end));
+    ux1 = u'*X;
+    ux2 = ux1(:,2:end);
+    ux1 = ux1(:,1:end-1);
+
     t1 = t(1:end-1);
     t2 = t(2:end);
     

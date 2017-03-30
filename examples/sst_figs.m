@@ -19,24 +19,10 @@ load(filename)
 
 load('sst_mask.mat')
 
-%% singular values plot
-
-figure(1)
-
-clf
 
 r999 = sum(cumsum(sd) < .999*sum(sd))+1;
 r99 = sum(cumsum(sd) < .99*sum(sd))+1;
 r90 = sum(cumsum(sd) < .9*sum(sd))+1;
-
-semilogy(sd,'b-')
-hold on
-semilogy(rgd,sd(rgd),'ms')
-semilogy(r90,sd(r90),'rx')
-semilogy(r99,sd(r99),'gd')
-%semilogy(r999,sd(r999),'cx')
-
-save_sing_plot(1,'sst_sing_vals');
 
 %% plot eigenvalues obtained for gavish donoho cut-off
 
@@ -219,7 +205,7 @@ ind_u = match_vectors(imag(eoptsave_u),imag(eoptsave));
 fig = figure(5)
 
 subplot(3,4,1)
-plot_with_mask(real(woptsave_u(:,ind_u(static(2)))),sst_mask)
+plot_with_mask(real(woptsave_u(:,ind_u(static(1)))),sst_mask)
 set(gca,'YTick',[],'XTick',[])
 subplot(3,4,3)
 plot_with_mask(real(woptsave(:,static(2))),sst_mask)

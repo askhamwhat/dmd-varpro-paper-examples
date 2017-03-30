@@ -61,8 +61,9 @@ elseif (imode == 2)
     
     % exact (but projected) DMD
 
-    X1 = u'*X(:,1:end-1);
-    X2 = u'*X(:,2:end);
+    X1 = u'*X;
+    X2 = X1(:,2:end);
+    X1 = X1(:,1:end-1);
 
     [u1,s1,v1] = svd(X1,'econ');
 
