@@ -16,7 +16,10 @@ set(groot,'defaultAxesXColor',[fg fg fg])
 set(groot,'defaultTextColor',[fg fg fg])
 set(groot,'defaultAxesTickLength',[0.04 0.07])
 
-set(groot, 'defaultLineMarkerSize',10)
-set(groot, 'defaultLineLineWidth',2)
+set(groot, 'defaultLineMarkerSize',15)
+set(groot, 'defaultLineLineWidth',3)
+
+set(groot, 'defaultScatterLineWidth',1)
+
 
 format shorte
